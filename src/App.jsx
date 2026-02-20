@@ -45,33 +45,44 @@ function App() {
     setIsProcessing(false);
   };
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-      });
-      const mediaRecorder = new MediaRecorder(stream);
+ const startRecording = async () => {
+  try {
+    // 🔥 บังคับความละเอียด + FPS
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: {
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+        frameRate: 30,
+      },
+      audio: false,
+    });
 
-      mediaRecorderRef.current = mediaRecorder;
-      chunksRef.current = [];
+    // 🔥 เพิ่ม bitrate ให้สูง ๆ ลดการแตก
+    const mediaRecorder = new MediaRecorder(stream, {
+      mimeType: "video/webm;codecs=vp9",
+      videoBitsPerSecond: 40_000_000, // 30 Mbps
+    });
 
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) chunksRef.current.push(e.data);
-      };
+    mediaRecorderRef.current = mediaRecorder;
+    chunksRef.current = [];
 
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "video/webm" });
-        setVideoBlob(blob);
-        processVideo(blob);
-        stream.getTracks().forEach((track) => track.stop());
-      };
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunksRef.current.push(e.data);
+    };
 
-      mediaRecorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      alert("Recording failed: " + error.message);
-    }
-  };
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(chunksRef.current, { type: "video/webm" });
+      setVideoBlob(blob);
+      processVideo(blob);
+      stream.getTracks().forEach((track) => track.stop());
+    };
+
+    mediaRecorder.start();
+    setIsRecording(true);
+  } catch (error) {
+    alert("Recording failed: " + error.message);
+  }
+};
 
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
