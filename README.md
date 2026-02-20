@@ -37,7 +37,7 @@ The result is a single image containing all revealed card faces.
 
 ## Demo
 
-https://chuenchat.github.io/7k-memory-game/
+https://jiradetwrn-cmd.github.io/7k-memory-game/
 
 ---
 
