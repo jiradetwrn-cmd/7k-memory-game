@@ -5,19 +5,31 @@ import { PROCESSING_CONFIG } from "./config";
 /* ============================= */
 
 const loadVideo = async (blob) => {
-  const video = document.createElement("video");
+   const video = document.createElement("video");
   video.preload = "auto";
   video.muted = true;
   video.src = URL.createObjectURL(blob);
 
   await new Promise((resolve, reject) => {
     video.onloadedmetadata = () => {
-      if (!isFinite(video.duration) || video.duration <= 0) {
-        reject(new Error("Invalid video duration"));
+      // ถ้า duration เป็น Infinity หรือ 0 ให้ force seek
+      if (!isFinite(video.duration) || video.duration === Infinity || video.duration === 0) {
+        video.currentTime = 1e10;
+
+        video.ontimeupdate = () => {
+          video.ontimeupdate = null;
+
+          if (isFinite(video.duration) && video.duration > 0) {
+            resolve();
+          } else {
+            reject(new Error("Invalid video duration"));
+          }
+        };
       } else {
         resolve();
       }
     };
+
     video.onerror = () => reject(new Error("Video load error"));
   });
 
