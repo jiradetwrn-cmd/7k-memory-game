@@ -4,7 +4,7 @@ export const PROCESSING_CONFIG = {
   fps: 12, // Process only 10 frames per second (skip frames)
 
   // Image scaling
-  scaleDown: 0.05, // Scale down to 50% (0.5 = half size, 1.0 = original size)
+  scaleDown: 1, // Scale down to 50% (0.5 = half size, 1.0 = original size)
 
   // Pixel change detection
   threshold: 20, // Pixel difference threshold (0-255)
