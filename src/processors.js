@@ -49,14 +49,10 @@ const prepareCanvas = (video) => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-  canvas.width = Math.floor(
-    video.videoWidth * PROCESSING_CONFIG.scaleDown
-  );
-  canvas.height = Math.floor(
-    video.videoHeight * PROCESSING_CONFIG.scaleDown
-  );
+  // ใช้ขนาดจริง
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 
-  // 🔥 เพิ่ม 3 บรรทัดนี้
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
