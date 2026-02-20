@@ -1,10 +1,10 @@
 // Configuration for video processing optimization
 export const PROCESSING_CONFIG = {
   // Frame processing
-  fps: 10, // Process only 10 frames per second (skip frames)
+  fps: 15, // Process only 10 frames per second (skip frames)
 
   // Image scaling
-  scaleDown: 2, // Scale down to 50% (0.5 = half size, 1.0 = original size)
+  scaleDown: 1, // Scale down to 50% (0.5 = half size, 1.0 = original size)
 
   // Pixel change detection
   threshold: 30, // Pixel difference threshold (0-255)
