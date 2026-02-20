@@ -299,3 +299,9 @@ export const processVideoMedian = async (blob, onProgress) => {
   URL.revokeObjectURL(video.src);
   return dataUrl;
 };
+/* ============================= */
+/* 4️⃣ MAX BRIGHTNESS (alias) */
+/* ============================= */
+/* เพื่อให้ App.jsx ที่เรียกชื่อเก่าไม่พัง */
+
+export const processVideoMaxBrightness = processVideoMaxDifference;
