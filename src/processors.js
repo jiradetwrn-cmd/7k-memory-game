@@ -63,8 +63,7 @@ const prepareCanvas = (video) => {
   return { canvas, ctx };
 };
 
-  return { canvas, ctx };
-};
+
 
 const validateFrameCount = (video) => {
   const fps = PROCESSING_CONFIG.fps;
