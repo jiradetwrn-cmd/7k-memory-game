@@ -47,7 +47,7 @@ const safeSeek = (video, time) =>
 
 const prepareCanvas = (video) => {
   const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
   canvas.width = Math.floor(
     video.videoWidth * PROCESSING_CONFIG.scaleDown
@@ -55,6 +55,13 @@ const prepareCanvas = (video) => {
   canvas.height = Math.floor(
     video.videoHeight * PROCESSING_CONFIG.scaleDown
   );
+
+  // 🔥 เพิ่ม 3 บรรทัดนี้
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  return { canvas, ctx };
+};
 
   return { canvas, ctx };
 };
